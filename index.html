@@ -103,28 +103,28 @@
 				<span>
 					<label for="sequenceMinSize">Minimum sequence size (MinS):</label>
 					<div min="2" max="24" id="sequenceMinSizeField" name="sequenceMinSize" class="slider" title="Any sequence with a shorter length than this parameter will get discarded and won't be used for the training nor the testing. Recommended: 5"></div>
-					<span class="paramValue">5</span>
+					<span class="paramValue minSValue">5</span>
 					<br/>
 				</span>
 				
 				<span>
 					<label for="windowSize">Prefix size: </label>
 					<div min="1" max="8" id="prefixSizeField" name="prefixSizeField" class="slider" title="A longer prefix brings a higher accuracy but a slower execution time. If this parameter is set too high it will have a negative impact on the accuracy. Recommended: 3"></div>
-					<span class="paramValue">3</span>
+					<span class="paramValue prefixSizeValue">3</span>
 				</span>
 				<br/>
 				
 				<span>
 					<label for="consequentSize">Suffix size:</label>
 					<div min="3" max="15" id="suffixSizeField" name="suffixSize" class="slider" title="A higher suffix size brings a higher accuracy. Recommended: 3"></div>
-					<span class="paramValue">3</span>
+					<span class="paramValue suffixSizeValue">3</span>
 					<br/>
 				</span>
 				
 				<span>
 					<label for="kfold">Use N-Fold Cross Validation with k = </label>
 					<div min="3" max="15" id="kfoldField" name="kfold" class="slider" title="A higher value brings more accurate results but slows down the experiment. Recommended: 10"></div>
-					<span class="paramValue">10</span>
+					<span class="paramValue kFoldValue">10</span>
 				</span>
 				
 			</div>

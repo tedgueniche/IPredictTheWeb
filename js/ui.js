@@ -32,14 +32,37 @@ function submitForm() {
 	var models = new Array();
 	$('.aModel').each(function() {
 		var name = $(this).attr('id');
-		models.push(name);
+
+		var params = new Array();
+		$(this).find("span.paramValue").each(function() {
+	
+			params.push({
+				name: $(this).attr('name'),
+				value: $(this).html()
+			});
+
+		});
+
+		console.log(params);
+
+		models.push({
+			name: name,
+			params: params
+		});
+
+		console.log(models);
 	});
 	
 
 	var datasetValue = $('#datasetNameField').val();
-	var modelValue = models[0];
-	var kfoldValue = $("#kfoldField").val();
+	var modelValue = models;
 	var sequenceCountValue = $("#sequenceCountField").val();
+
+	var minS = $(".minSValue").html();
+	var prefixSize = $(".prefixSizeValue").html();
+	var suffixSize = $(".suffixSizeValue").html();
+	var kFold = $(".kFoldValue").html();
+
 	var req = $.ajax({
 	
 		type:"POST",
@@ -47,8 +70,11 @@ function submitForm() {
 		data: {
 			dataset: datasetValue,
 			model: modelValue,
-			kfold: kfoldValue,
-			sequenceCount: sequenceCountValue
+			sequenceCount: sequenceCountValue,
+			minS: minS,
+			prefixSize: prefixSize,
+			suffixSize: suffixSize,
+			kFold: kFold
 		}
 	
 	}).done(function(data) {
@@ -91,7 +117,7 @@ function addParamField(name, desc, val, help, min, max) {
 			field += '<input title="'+ help +'" type="text" id="'+name+'Field" class="modelField" name="'+name+'" value="'+val+'"/>';
 		} else {
 			field += '<div title="'+ help +'" min="'+ min +'" max="'+ max +'" id="'+name+'" name="'+name+'" class="slider"></div>';
-			field += '<span class="paramValue">'+val+'</span>';
+			field += '<span name="'+ name +'" class="paramValue">'+val+'</span>';
 		}
 	field += '</span>';
 	return field;
