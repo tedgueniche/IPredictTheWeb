@@ -1,32 +1,72 @@
-/*!
- * Author: Ted Gueniche
- *
- * Released under the MIT license
- */
-
+//Main controller - called once per page load
 $(document).ready(function() {
 
-	
+	//Hooking form submission
 	$('#submitButton').click(function() {
 		submitForm();
 	});
 	
+	//Adding a model by default
 	addModel("cpt", "Compact Prediction Tree");
 	$("#addButton").click(function() {
 		addModel($("#modelField").val(), $("#modelField option:selected").text());
 	});
 	
+	//Hooking the dataset selector events
 	$("#datasetTypeField").change(function() {
 		$("#classicDataset").hide();
 		$("#customDataset").hide();
 		$("#"+ $(this).val()).show();
 	});
 	
+	//Adding the tooltip
 	$(document).tooltip();
 });
 
+//Fetches the results for a given request id
+//This is an asynchronous wait on the request response
+function getResults(id) {
 
+	//Loop until a response is available
+	var loop = setInterval(function() {
 
+		$.ajax({
+	
+			type:"GET",
+			url: "run.php?action=get&id="+ id,
+
+		}).done(function(data) {
+			
+			if(data == 'false') {
+				console.log("Waiting for request #"+ id);
+			}
+			else {
+				//output the results
+				console.log("Got the results");
+				console.log(data);
+
+				//stopping the loop
+				clearInterval(loop);
+
+				// /{"algorithms": ["dg"], "resuls": [{"name": "Success","data": [24.8]},{"name": "Failure","data": [75.2]},{"name": "No Match","data": [00.000]},{"name": "Too Small","data": [00.000]},{"name": "Overall","data": [24.8]},{"name": "Size (MB)","data": [0.039]},{"name": "Train Time","data": [0.057]},{"name": "Test Time","data": [0.007]}]}
+
+				data = data.split("00.000").join("0");
+				var results = JSON.parse(data);
+				var attrs = results['resuls'];
+				var columns = results['algorithms'];
+
+				showResults(attrs, columns);
+
+			}
+			
+		}).fail(function(jqXHR, textStatus) {
+			alert('fail: '+ textStatus);
+		});
+
+	}, 1000);
+}
+
+//Send a request to the server
 function submitForm() {
 
 	var models = new Array();
@@ -66,7 +106,7 @@ function submitForm() {
 	var req = $.ajax({
 	
 		type:"POST",
-		url: "run.php",
+		url: "run.php?action=push",
 		data: {
 			dataset: datasetValue,
 			model: modelValue,
@@ -78,31 +118,14 @@ function submitForm() {
 		}
 	
 	}).done(function(data) {
-		$('#resultField').val(data); //raw results
-		var attrs = [
-		{name: 'Accuracy (%)', data: [36.07, 38.45, 31.12, 30.81], atype: 'linear'},
-		{name: 'Size (nodes)', data: [484, 30920, 484, 67378], atype: 'logarithmic'},
-		{name: 'Training Time (s)', data: [0.076, 0.018, 0.01, 0.356], atype: 'logarithmic'},
-		{name: 'Testing Time (s)', data: [0.004, 0.352, 0.001, 0.004], atype: 'logarithmic'},
-		];
+		console.log("request id: "+ data);
 		
-		var columns = ['DG', 'CPT', 'PPM', 'AKOM'];
-		showResults(attrs, columns);
+		var id = data;
+
+		getResults(id);
 		
 	}).fail(function(jqXHR, textStatus) {
 		alert('fail: '+ textStatus);
-		
-		
-		var attrs = [
-		{name: 'Accuracy (%)', data: [36.07, 38.45, 31.12, 30.81], atype: 'linear'},
-		{name: 'Size (nodes)', data: [484, 30920, 484, 67378], atype: 'logarithmic'},
-		{name: 'Training Time (s)', data: [0.076, 0.018, 0.01, 0.356], atype: 'logarithmic'},
-		{name: 'Testing Time (s)', data: [0.004, 0.352, 0.001, 0.004], atype: 'logarithmic'},
-		];
-		
-		var columns = ['DG', 'CPT', 'PPM', 'AKOM'];
-		
-		showResults(attrs, columns);
 	});
 }
 
@@ -123,6 +146,7 @@ function addParamField(name, desc, val, help, min, max) {
 	return field;
 }
 
+//Adds a model to the experiment request
 function addModel(modelValue, modelName) {
 	var htmlPre = '<div id="'+ modelValue +'" class="aModel">';
 	var htmlPost = '</div>'
@@ -131,14 +155,17 @@ function addModel(modelValue, modelName) {
 	if(modelValue == "dg") {
 		htmlContent += addParamField("lookahead","Lookahead",4, "A higher value brings a higher accuracy but slows down the algorithm. Recommended: 4", 2,8);
 	}
-	else if(modelValue == "fom") {
+	else if(modelValue == "ppm") {
 	}
 	else if(modelValue == "akom") {
 		htmlContent += addParamField("order","Order",5, "A higher value brings a higher accuracy but slows down the algorithm. Recommended: 5", 2,8);
 	}
-	else {
+	else if(modelValue == "cpt") {
 		htmlContent += addParamField("recursiveDividerMax","Divider",5, "A higher value brings a higher accuracy. Recommended: 5", 0,8);
 		htmlContent += addParamField("splitLength","Split Length",12, "A lower value can reduce the execution time and bring a higher accuracy. Recommended: between 10 and 20", 5,50);
+	}
+	else {
+		return;
 	}
 	
 	htmlContent += '<button class="removeModel">X</button>';
@@ -148,6 +175,7 @@ function addModel(modelValue, modelName) {
 	setEvents();
 }
 
+//Hooking events for the models
 function setEvents() {
 	$('.removeModel').on("click", function() {
 		$(this).parent().remove();
@@ -252,7 +280,8 @@ function showResults(data, columns) {
 				title: {
 					text: null
 				},
-				type: attr.atype,
+				//type: attr.atype,
+				type: 'logarithmic',
 				labels: {
 					style: {
 						//fontFamily: 'times new roman',
