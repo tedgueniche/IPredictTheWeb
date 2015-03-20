@@ -1,0 +1,172 @@
+<html>
+<head>
+	<title>IPredict - Web Sequence Predictions</title>
+	
+	<!--jQuery (MIT)-->
+	<script src="js/jquery-1.9.1.js"></script>
+	
+	<!--jQuery UI (MIT)-->
+	<link rel="stylesheet" href="css/start/jquery-ui-1.10.3.custom.min.css">
+	<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+	
+	<!--Highcharts Creative Commons Attributions - NonCommercial 3.0-->
+	<script src="js/highcharts.js"></script>
+	
+	<!--Dropzone.js (MIT)-->
+	<script src="js/dropzone.js"></script>
+	<link rel="stylesheet" href="css/dropzone.css">
+
+	<!-- Custom CSS and JS (MIT)-->
+	<link rel="stylesheet" type="text/css" href="css/main.css" />
+	<script src="js/ui.js"></script>
+
+</head>
+<body>
+
+<div id="wrapper">
+
+	<div id="header">
+		<div class="title">WBPL</div>
+		<div class="subtitle">An Open-Source Library for Predicting Web Surfing Behavior</div>
+	
+	</div>
+
+	<div id="form">
+	
+		<div class="section" id="dataSection">
+			<div class="title">1) Pick you data:</div>
+			
+			<div class="subform" id="datasetType">
+				<label for="datasetType">Type:</label>
+				<select id="datasetTypeField" name="datasetType">
+					<option value="classicDataset">Pre-made</option>
+					<option value="customDataset">Custom</option>
+				</select>
+			</div>
+			
+			<div class="subform" id="classicDataset">
+				<label for="datasetName">Dataset:</label>
+				<select id="datasetNameField" name="datasetName">
+					<option value="BMS">BMS</option>
+					<option value="KOSARAK">KOSARAK</option>
+					<option value="FIFA">FIFA</option>
+				</select>
+				<br/>
+				<label for="sequenceCount">Number of sequences to use:</label>
+				<input type="text" id="sequenceCountField" name="sequenceCount" value="5000" title="The number of sequence to use for the experiment."/>
+			</div>
+			
+			<div class="subform" id="customDataset" style="display:none">
+				<label for="datasetName">Source:</label>
+				<select type="text" id="datasetSrcField" name="datasetSrc" value="15">
+					<option value="apache">Apache</option>
+					<option value="nginx">Nginx</option>
+					<option value="lighttpd">Lighttpd</option>
+				</select>
+				<br/>
+				<label for="timeWindow">Time window:</label>
+				<div min="1" max="120" id="timeWindowField" name="timeWindow" class="slider" title="How long before a web session expires when a user is inactive. Default: 15 minutes"></div>
+				<span class="paramValue">15</span>
+				<br/>
+				<label for="file">Upload your log file:</label>
+				<!--input type="file" name="file" id="file"-->
+				<form action="upload.php" class="dropzone"></form>
+			</div>
+		</div>
+		
+		<div class="section" id="modelSection">
+			<div class="title">2) Pick a prediction model:</div>
+			
+			<div class="subform" id="modelList">
+				<label for="model">Model:</label>
+				<select id="modelField" name="model">
+					<option value="cpt">Compact Prediction Tree</option>
+					<option value="dg">Dependancy Graph</option>
+					<option value="ppm">1st Order PPM</option>
+					<option value="akom">All-K-Order PPM</option>
+				</select>
+				
+				<label for="addButton">
+				<button id="addButton">Add model</button>
+			</div>
+			
+			
+			<div class="subform" id="modelList">
+				
+			</div>
+		</div>
+		
+		<div class="section" id="predictionSection">
+			<div class="title">3) Set the parameters:</div>
+			
+			<div class="subform">
+				<span>
+					<label for="sequenceMinSize">Minimum sequence size (MinS):</label>
+					<div min="2" max="24" id="sequenceMinSizeField" name="sequenceMinSize" class="slider" title="Any sequence with a shorter length than this parameter will get discarded and won't be used for the training nor the testing. Recommended: 5"></div>
+					<span class="paramValue minSValue">5</span>
+					<br/>
+				</span>
+				
+				<span>
+					<label for="windowSize">Prefix size: </label>
+					<div min="1" max="8" id="prefixSizeField" name="prefixSizeField" class="slider" title="A longer prefix brings a higher accuracy but a slower execution time. If this parameter is set too high it will have a negative impact on the accuracy. Recommended: 3"></div>
+					<span class="paramValue prefixSizeValue">3</span>
+				</span>
+				<br/>
+				
+				<span>
+					<label for="consequentSize">Suffix size:</label>
+					<div min="3" max="15" id="suffixSizeField" name="suffixSize" class="slider" title="A higher suffix size brings a higher accuracy. Recommended: 3"></div>
+					<span class="paramValue suffixSizeValue">3</span>
+					<br/>
+				</span>
+				
+				<span>
+					<label for="kfold">Use N-Fold Cross Validation with k = </label>
+					<div min="3" max="15" id="kfoldField" name="kfold" class="slider" title="A higher value brings more accurate results but slows down the experiment. Recommended: 10"></div>
+					<span class="paramValue kFoldValue">10</span>
+				</span>
+				
+			</div>
+			
+		</div>
+		
+		<div class="section" id="performSection">
+			<div class="subform">
+				<button type="button" id="submitButton">Start Experiment</button>
+			</div>
+		</div>
+		
+		<div class="section" id="resultsSection">
+			<div class="title">Results:</div>
+			
+			<div class="subform" id="rawResults">
+				<!--label for="sequenceToPredict">Statistics</label-->
+				<textarea id="resultField" cols=104 rows=10></textarea>
+			</div>
+			
+			<div class="subform" id="ResultGraphs">
+				<table>
+					<tr>
+						<td></td>
+						<td></td>
+					</tr><tr>
+						<td></td>
+						<td></td>
+					</tr><tr>
+						<td></td>
+						<td></td>
+					</tr><tr>
+						<td></td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	
+	</div>
+
+</div>
+
+</body>
+</html>
