@@ -11,7 +11,7 @@ public class ExperimentController {
 	public static void main(String...args) {
 		
 		// Default values for paths
-		String requestFolder = "/home/ted/tmp/wwwIPredictRequest/";
+		String requestFolder = "/home/ted/tmp/wwwIPredictRequest";
 		String datasetFolder = "/home/ted/java/IPredict/datasets";
 		
 		//Usage and argument capture

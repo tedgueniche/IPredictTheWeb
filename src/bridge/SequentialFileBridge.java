@@ -70,7 +70,7 @@ public class SequentialFileBridge {
 	 */
 	public String getRequest(String requestId) {
 		
-		String content = readFile(basePath + requestId);
+		String content = readFile(basePath + "/" + requestId);
 		return content;
 	}
 	
@@ -84,7 +84,7 @@ public class SequentialFileBridge {
 		//writes to the response file
 		String responseFilePath = requestId.replaceAll(requestSuffix, responseSuffix);
 		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter(basePath + responseFilePath));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(basePath + "/" + responseFilePath));
 			bw.write(response);
 			bw.flush();
 			bw.close();
@@ -112,7 +112,7 @@ public class SequentialFileBridge {
 		requestsQueue.remove(requestId);
 		
 		//Deletes the request file
-		boolean isDeleted = new File(basePath + requestId).delete();
+		boolean isDeleted = new File(basePath + "/" + requestId).delete();
 
 		return isDeleted;
 	}
