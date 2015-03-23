@@ -19,14 +19,14 @@ import org.json.JSONObject;
 public class SequentialFileBridge {
 
 	/**
-	 * Suffix for the file containing a JSON request for an experiment
+	 * Suffix for the file containing a JSON request
 	 */
-	private final String requestSuffix = ".experimentRequest";
+	private String requestSuffix;
 	
 	/**
-	 * Suffix for the file containing a JSON response for an experiment
+	 * Suffix for the file containing a JSON response
 	 */
-	private final String responseSuffix = ".experimentResponse";
+	private String responseSuffix;
 	
 	/**
 	 * Path to the folder containing the request files
@@ -41,8 +41,10 @@ public class SequentialFileBridge {
 	/**
 	 * @param basePath Path to the folder containing the request files
 	 */
-	public SequentialFileBridge(String basePath) {
+	public SequentialFileBridge(String basePath, String requestSuffix, String responseSuffix) {
 		this.basePath = basePath;
+		this.requestSuffix = requestSuffix;
+		this.responseSuffix = responseSuffix;
 		requestsQueue = new TreeSet<String>();
 	}
 	

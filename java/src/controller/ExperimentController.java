@@ -24,13 +24,13 @@ public class ExperimentController {
 			datasetFolder = args[1];
 		}
 		
-		System.out.println("Starting the experiment bridge");
 		System.out.println("Request Folder: "+ requestFolder);
 		System.out.println("Dataset Folder: "+ datasetFolder);
 		
 		
 		//Creating the communication bridge
-		SequentialFileBridge bridge = new SequentialFileBridge(requestFolder);
+		SequentialFileBridge bridge = new SequentialFileBridge(requestFolder, ".experimentRequest", ".experimentResponse");
+		System.out.println("Waiting for request");
 		
 		//For ever and after
 		while(true) {
