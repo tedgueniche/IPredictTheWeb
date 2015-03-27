@@ -4,4 +4,7 @@ A cross-platform open-source library for predicting the behavior of web users. W
 
 _This library is still a work in progress_
 
-As of today, the library allows users to run experiments on a specified set of datasets (available in the IPredict repository) with a number of sequence prediction algorithms.
+As of today:
+The library allows users to run experiments on a specified set of datasets (available in the IPredict repository) with a number of sequence prediction algorithms.
+The library allows near real-time prediction
+The library can convert log files from Nginx, Apache and Lighttpd to sequence files for experiments.
