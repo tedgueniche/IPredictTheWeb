@@ -1,7 +1,5 @@
 package controller;
 
-import java.io.IOException;
-
 import bridge.SequentialFileBridge;
 import ca.ipredict.database.DatabaseHelper.Format;
 import ca.ipredict.database.Item;
@@ -10,6 +8,13 @@ import ca.ipredict.predictor.Evaluator;
 import ca.ipredict.predictor.Predictor;
 import ca.ipredict.predictor.DG.DGPredictor;
 
+/**
+ * Train the predictor with your own parameters
+ * This controller waits for prediction requests and outputs responses
+ * Uses the SequentialFileBridge with the suffixes .predictionRequest and .predictionResponse
+ * A request is a set of space separated item id (integers) on a single line in a .predictionRequest file.
+ * A response is a set of space separated item id (integers) on a single line in a .predictionResponse file.
+ */
 public class PredictionController {
 	
 	/**
@@ -23,7 +28,10 @@ public class PredictionController {
 	}
 	
 	
-	public static void main(String...args) throws IOException {
+	/**
+	 * Main method
+	 */
+	public static void main(String...args) {
 		
 		// Default values for paths
 		String requestFolder = "/home/ted/tmp/wwwIPredictRequest";
