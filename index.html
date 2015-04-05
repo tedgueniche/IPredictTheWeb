@@ -1,25 +1,34 @@
-<!DOCTYPE html>
-<html lang="en-us">
+<!doctype html>
+<html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Ipredicttheweb by tedgueniche</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
   <body>
-    <section class="page-header">
-      <h1 class="project-name">Ipredicttheweb</h1>
-      <h2 class="project-tagline">Sequence prediction and recommendation based on the IPredict framework</h2>
-      <a href="https://github.com/tedgueniche/IPredictTheWeb" class="btn">View on GitHub</a>
-      <a href="https://github.com/tedgueniche/IPredictTheWeb/zipball/master" class="btn">Download .zip</a>
-      <a href="https://github.com/tedgueniche/IPredictTheWeb/tarball/master" class="btn">Download .tar.gz</a>
-    </section>
+    <div class="wrapper">
+      <header>
+        <h1>Ipredicttheweb</h1>
+        <p>Sequence prediction and recommendation based on the IPredict framework</p>
 
-    <section class="main-content">
-      <h1>
+        <p class="view"><a href="https://github.com/tedgueniche/IPredictTheWeb">View the Project on GitHub <small>tedgueniche/IPredictTheWeb</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/tedgueniche/IPredictTheWeb/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/tedgueniche/IPredictTheWeb/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/tedgueniche/IPredictTheWeb">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
 <a id="ipredicttheweb" class="anchor" href="#ipredicttheweb" aria-hidden="true"><span class="octicon octicon-link"></span></a>IPredictTheWeb</h1>
 
 <p>A cross-platform open-source library for predicting the behavior of web users. WBPL allows training prediction models from server logs. The proposed library offers support for three of the most used webservers (Apache, Nginx and Lighttpd). Models can then be used to predict the next resources fetched by users and can be updated with new logs efficiently. WBPL offers multiple state-of-the-art prediction models such as PPM, All-K-Order-Markov,DG, and CPT (Compact Prediction Tree).  Experiments on various web click-stream datasets shows that the library can be used to predict web surfing or buying behaviors with a very high overall accuracy (up to 38 \%) and is very efficient (up to 1000 predictions /s). This library was first introduced at the conference ISMIS 2014 in Denmark [1].</p>
@@ -36,56 +45,58 @@
 
 <p>A web server which can execute PHP such as Apache or Nginx.</p>
 
-<p>$ sudo apt-get install apache2 php5</p>
+<p><code>$ sudo apt-get install apache2 php5</code></p>
 
-<ul>
-<li>
 <p>Java 8 installed</p>
 
-<p>$ sudo add-apt-repository ppa:webupd8team/java
-$ sudo apt-get update
-$ sudo apt-get install oracle-java8-installer</p>
-</li>
-<li>
+<p><code>$ sudo add-apt-repository ppa:webupd8team/java</code></p>
+
+<p><code>$ sudo apt-get update</code></p>
+
+<p><code>$ sudo apt-get install oracle-java8-installer</code></p>
+
 <p>Screen or equivalent installed</p>
 
-<p>$ sudo apt-get install screen</p>
-</li>
-</ul>
+<p><code>$ sudo apt-get install screen</code></p>
 
 <h3>
 <a id="steps" class="anchor" href="#steps" aria-hidden="true"><span class="octicon octicon-link"></span></a>Steps:</h3>
 
-<ol>
-<li><p>Clone this repository on your server in a directory accessible via HTTP (e.g.: /var/www/)
-$ mkdir /var/www/IPredict
-$ git clone <a href="https://github.com/tedgueniche/IPredictTheWeb/">https://github.com/tedgueniche/IPredictTheWeb/</a> -C /var/www/IPredict/</p></li>
-<li><p>Run the java binaries in a screen
-$ cd /var/www/IPredict/java
-$ screen
-$ java -jar release/IPredictTheWeb_last.jar</p></li>
-<li><p>Access the web GUI (/var/www/IPredict/www/index.html) with you browser.
-<img src="http://s13.postimg.org/6a19n2h07/www_GUI_1.png" alt="Web GUI"></p></li>
-<li><p>Choose a data source (pre-made or custom) and the number of sequences to consider. Pre-made datasets are available in the application and described in [1,2]. A custom log file from one of the three supported platform (Nginx, Lighttpd, or Apache) can be uploaded.</p></li>
-<li><p>Select one or more prediction models for comparison. Each model has its own set of parameters that needs to be set. All the predictors do not perform equally well in all situations. Therefore, it is recommended to test them all for a given dataset.</p></li>
-<li><p>Select parameters to indicate how to compare the selected prediction models. These parameters are independent of the choice of prediction models.</p></li>
-<li><p>Click on the "Start Experiment" button to launch the experiment. All the parameters are sent via ajax to a PHP script (www/run.php). The request is then interpreted and executed by the IPredict framework. The results are returned to the GUI in JSON.
-<img src="http://s16.postimg.org/4jebuiahh/www2013_Performances1_1.png" alt="Results"></p></li>
-</ol>
+<p>Clone this repository on your server in a directory accessible via HTTP (e.g.: /var/www/)
+<code>$ mkdir /var/www/IPredict</code></p>
+
+<p><code>$ git clone https://github.com/tedgueniche/IPredictTheWeb/ -C /var/www/IPredict/</code></p>
+
+<p>Run the java binaries in a screen</p>
+
+<p><code>$ cd /var/www/IPredict/java</code></p>
+
+<p><code>$ screen</code></p>
+
+<p><code>$ java -jar release/IPredictTheWeb_last.jar</code></p>
+
+<p>Access the web GUI (/var/www/IPredict/www/index.html) with you browser.
+<img src="http://s13.postimg.org/6a19n2h07/www_GUI_1.png" alt="Web GUI"></p>
+
+<p>Choose a data source (pre-made or custom) and the number of sequences to consider. Pre-made datasets are available in the application and described in [1,2]. A custom log file from one of the three supported platform (Nginx, Lighttpd, or Apache) can be uploaded.</p>
+
+<p>Select one or more prediction models for comparison. Each model has its own set of parameters that needs to be set. All the predictors do not perform equally well in all situations. Therefore, it is recommended to test them all for a given dataset.</p>
+
+<p>Select parameters to indicate how to compare the selected prediction models. These parameters are independent of the choice of prediction models.</p>
+
+<p>Click on the "Start Experiment" button to launch the experiment. All the parameters are sent via ajax to a PHP script (www/run.php). The request is then interpreted and executed by the IPredict framework. The results are returned to the GUI in JSON.
+<img src="http://s16.postimg.org/4jebuiahh/www2013_Performances1_1.png" alt="Results"></p>
 
 <p>[1] Gueniche, Ted, et al. "WBPL: An Open-Source Library for Predicting Web Surfing Behaviors." Foundations of Intelligent Systems. Springer International Publishing, 2014. 524-529.</p>
 
 <p>[2] Gueniche, Ted, Philippe Fournier-Viger, and Vincent S. Tseng. "Compact Prediction Tree: A Lossless Model for Accurate Sequence Prediction." Advanced Data Mining and Applications. Springer Berlin Heidelberg, 2013. 177-188.</p>
-
-      <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/tedgueniche/IPredictTheWeb">Ipredicttheweb</a> is maintained by <a href="https://github.com/tedgueniche">tedgueniche</a>.</span>
-
-        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/tedgueniche">tedgueniche</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </footer>
-
-    </section>
-
-  
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
   </body>
 </html>
-
